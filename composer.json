@@ -1,0 +1,146 @@
+{
+    "$schema": "https://getcomposer.org/schema.json",
+    "name": "jeffersongoncalves/commercekitv4",
+    "type": "project",
+    "description": "CommerceKit starter kit built on Laravel 13.x and Filament 4.x with a multi-panel (admin/app/guest) structure and the full Laravel Commerce ecosystem on the admin panel.",
+    "keywords": [
+        "laravel-starter-kit",
+        "starter-kit",
+        "filament-starter-kit",
+        "commerce",
+        "laravel",
+        "filament",
+        "filament-v4",
+        "livewire",
+        "tailwindcss"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^8.3",
+        "achyutn/filament-log-viewer": "^1.2",
+        "dutchcodingcompany/filament-developer-logins": "^2.1",
+        "filament/filament": "^4.5",
+        "jeffersongoncalves/filament-additional-information": "^2.0",
+        "jeffersongoncalves/filament-logo": "^2.0",
+        "jeffersongoncalves/filament-pwa": "^2.0",
+        "jeffersongoncalves/filament-sensible-defaults": "^2.0",
+        "joaopaulolndev/filament-edit-profile": "^2.0",
+        "laravel/framework": "^13.0",
+        "laravel/tinker": "^3.0",
+        "livewire/livewire": "^3.7",
+        "wallacemartinss/filament-icon-picker": "^1.2",
+        "jeffersongoncalves/filament-commerce": "^2.0"
+    },
+    "require-dev": {
+        "barryvdh/laravel-debugbar": "^4.0",
+        "barryvdh/laravel-ide-helper": "^3.5",
+        "fakerphp/faker": "^1.23",
+        "larastan/larastan": "^3.2",
+        "laravel/pail": "^1.1",
+        "laravel/pint": "^1.13",
+        "laravel/sail": "^1.26",
+        "mockery/mockery": "^1.6",
+        "nunomaduro/collision": "^8.1",
+        "pestphp/pest": "^4.4",
+        "pestphp/pest-plugin-laravel": "^4.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Database\\Factories\\": "database/factories/",
+            "Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": [
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
+            "@php artisan package:discover --ansi",
+            "@php artisan icons:cache"
+        ],
+        "post-update-cmd": [
+            "@php artisan vendor:publish --tag=laravel-assets --ansi --force",
+            "@php artisan vendor:publish --tag=livewire:assets --ansi --force",
+            "@php artisan filament:upgrade"
+        ],
+        "post-root-package-install": [
+            "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "post-create-project-cmd": [
+            "@php artisan key:generate --ansi",
+            "@php -r \"file_exists('database/database.sqlite') || touch('database/database.sqlite');\"",
+            "@php artisan migrate --graceful --ansi"
+        ],
+        "publish-commerce": [
+            "@php artisan vendor:publish --tag=commerce-api-key-migrations --ansi",
+            "@php artisan vendor:publish --tag=commerce-auth-migrations --ansi",
+            "@php artisan vendor:publish --tag=commerce-cart-migrations --ansi",
+            "@php artisan vendor:publish --tag=commerce-currency-migrations --ansi",
+            "@php artisan vendor:publish --tag=commerce-customer-migrations --ansi",
+            "@php artisan vendor:publish --tag=commerce-fulfillment-migrations --ansi",
+            "@php artisan vendor:publish --tag=commerce-inventory-migrations --ansi",
+            "@php artisan vendor:publish --tag=commerce-loyalty-migrations --ansi",
+            "@php artisan vendor:publish --tag=commerce-order-migrations --ansi",
+            "@php artisan vendor:publish --tag=commerce-payment-migrations --ansi",
+            "@php artisan vendor:publish --tag=commerce-pricing-migrations --ansi",
+            "@php artisan vendor:publish --tag=commerce-product-migrations --ansi",
+            "@php artisan vendor:publish --tag=commerce-promotion-migrations --ansi",
+            "@php artisan vendor:publish --tag=commerce-region-migrations --ansi",
+            "@php artisan vendor:publish --tag=commerce-sales-channel-migrations --ansi",
+            "@php artisan vendor:publish --tag=commerce-stock-location-migrations --ansi",
+            "@php artisan vendor:publish --tag=commerce-store-credit-migrations --ansi",
+            "@php artisan vendor:publish --tag=commerce-store-migrations --ansi",
+            "@php artisan vendor:publish --tag=commerce-tax-migrations --ansi",
+            "@php artisan vendor:publish --tag=commerce-translation-migrations --ansi",
+            "@php artisan vendor:publish --tag=commerce-user-migrations --ansi"
+        ],
+        "ide-helper": [
+            "@php artisan ide-helper:generate -q",
+            "@php artisan ide-helper:meta -q",
+            "@php artisan ide-helper:model --write --reset -q -n",
+            "./vendor/bin/pint -q"
+        ],
+        "pint": [
+            "./vendor/bin/pint -q"
+        ],
+        "phpstan": [
+            "./vendor/bin/phpstan"
+        ],
+        "dev": [
+            "Composer\\Config::disableProcessTimeout",
+            "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite"
+        ],
+        "schedule": [
+            "Composer\\Config::disableProcessTimeout",
+            "npx concurrently -c \"#93c5fd\" \"php artisan schedule:work\" --names=schedule"
+        ],
+        "queue": [
+            "Composer\\Config::disableProcessTimeout",
+            "npx concurrently -c \"#93c5fd\" \"php artisan queue:listen --tries=1\" --names=queue"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "dont-discover": []
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "php-http/discovery": true
+        },
+        "platform": {
+            "ext-pcntl": "7.1",
+            "ext-posix": "7.1"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
